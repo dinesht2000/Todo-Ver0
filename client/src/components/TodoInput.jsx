@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import dateFormater from "../utils/dateFormater";
+import { useSelector, useDispatch } from 'react-redux'
+import {AddTask} from "../store/TodoSlice"
 
-const TodoInput = ({ AddTask }) => {
+const TodoInput = () => {
+  const dispatch=useDispatch();
   const [task, setTask] = useState("");
   const [deadline,setDeadline]=useState(dateFormater(new Date()));
 
@@ -10,7 +13,7 @@ const TodoInput = ({ AddTask }) => {
   const handleAddTask = (e) => {
     e.preventDefault();
     if (task.trim() === "") return;
-    AddTask(task,deadline);
+    dispatch(AddTask({task,deadline}));
     setTask("");
     setDeadline(dateFormater(new Date()));
   };

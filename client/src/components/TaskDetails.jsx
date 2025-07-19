@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import {useDispatch } from 'react-redux'
+import {handleEditTask,handleDeleteTask} from "../store/TodoSlice"
 
-const TaskDetails = ({ items, handleDeleteTask, handleEditTask }) => {
+const TaskDetails = ({ items }) => {
+   const dispatch=useDispatch();
   const [isEditable, setIsEditable] = useState(false);
   const [editedTask, setEditedTask] = useState(items.task);
   const [isCompleted, setIsCompleted] = useState(false);
 
   const EditTask = (id) => {
     setIsEditable(!isEditable);
-    handleEditTask(id, editedTask);
+    dispatch(handleEditTask({id, editedTask}));
   };
 
   return (
@@ -33,11 +36,11 @@ const TaskDetails = ({ items, handleDeleteTask, handleEditTask }) => {
           onClick={() => EditTask(items.id)}
           disabled={isCompleted}
         >
-          Edit
+          {isEditable?'Save':'Edit'}
         </button>
         <button
           className="bg-red-400 px-3 py-1 rounded-2xl cursor-pointer"
-          onClick={() => handleDeleteTask(items.id)}
+          onClick={() => dispatch(handleDeleteTask(items.id))}
         >
           Delete
         </button>
